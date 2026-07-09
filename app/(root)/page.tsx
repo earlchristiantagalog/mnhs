@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { useSchoolYear } from "@/hooks/use-school-year";
 
 const programs = [
@@ -49,6 +50,16 @@ const admissionsSteps = [
   { title: "Document Submission", desc: "Submit your Form 138, Birth Certificate, and other required documents to the registrar." },
   { title: "Assessment & Verification", desc: "Our staff will verify your documents and assess your academic standing." },
   { title: "Confirmation", desc: "Receive your enrollment confirmation and class schedule via email or SMS." },
+];
+
+const faqs = [
+  { q: "What are the requirements for enrollment?", a: "New students need to submit their Form 138 (Report Card), Birth Certificate, and a valid ID. Returning students only need their Form 138 and must have cleared all outstanding balances from the previous school year." },
+  { q: "When does enrollment start?", a: "Enrollment typically opens on the second Monday of May and runs for 46 days. Late enrollments may be accommodated subject to available slots." },
+  { q: "What strands are offered in Senior High School?", a: "We offer four SHS strands: STEM (Science, Technology, Engineering, Mathematics), ABM (Accountancy, Business, Management), HUMSS (Humanities and Social Sciences), and TVL (Technical-Vocational-Livelihood)." },
+  { q: "Is there a tuition fee?", a: "MNHS is a public high school under DepEd, so tuition is free. However, there are minimal miscellaneous fees for school supplies, uniforms, and extracurricular activities." },
+  { q: "What are the school hours?", a: "Regular classes start at 7:00 AM and end at 2:45 PM for elementary and 4:00 PM for senior high school. Actual dismissal may vary depending on the student's schedule." },
+  { q: "Does the school offer extracurricular activities?", a: "Yes! We have various clubs and organizations including SSLG (Student Supreme Leaders Guild), Science Club, Math Club, English Club, and sports teams for basketball, volleyball, and athletics." },
+  { q: "How can I contact the school?", a: "You can reach us through our official Facebook page, email at info@mnhs.edu.ph, or call (032) 123-4567 during office hours (7:00 AM - 4:00 PM, Monday to Friday)." },
 ];
 
 export default function Home() {
@@ -130,13 +141,13 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="relative order-2 lg:order-1">
               <div
-                className="aspect-[4/3] rounded-2xl overflow-hidden flex items-center justify-center relative"
-                style={{ background: "linear-gradient(135deg,#fef3c7,#fde68a)" }}
+                className="aspect-[4/3] rounded-2xl overflow-hidden relative"
               >
-                <svg className="w-20 h-20 text-amber-400/40 absolute" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                  <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
+                <img
+                  src="/bg.jpg"
+                  alt="Mabolo National High School"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div
                 className="absolute -bottom-5 -right-4 sm:-bottom-6 sm:-right-6 w-24 h-24 sm:w-28 sm:h-28 rounded-full flex flex-col items-center justify-center text-white text-center shadow-xl"
@@ -418,6 +429,76 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* FAQs Section */}
+      <FAQsSection />
     </div>
+  );
+}
+
+function FAQsSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className="py-20 sm:py-28 bg-gray-50" id="faqs">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="text-center mb-10 sm:mb-12">
+          <span className="font-sans text-xs font-bold tracking-[3px] uppercase mb-2 block" style={{ color: "#8B1010" }}>
+            FREQUENTLY ASKED QUESTIONS
+          </span>
+          <div className="w-12 h-0.5 mx-auto mb-4 rounded-full" style={{ background: "#8B1010" }} />
+          <h2 className="font-sans text-3xl sm:text-4xl font-black text-gray-900">
+            Have Questions?
+          </h2>
+          <p className="font-sans text-gray-500 text-sm mt-3 max-w-lg mx-auto">
+            Find answers to the most common questions about enrollment, programs, and school life at MNHS.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={i}
+                className={`bg-white rounded-xl border transition-all duration-200 ${
+                  isOpen ? "border-gray-300 shadow-md" : "border-gray-200 hover:border-gray-300"
+                }`}
+              >
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 sm:py-5 text-left cursor-pointer"
+                >
+                  <span className={`font-sans text-sm sm:text-base font-semibold transition-colors ${
+                    isOpen ? "text-gray-900" : "text-gray-700"
+                  }`}>
+                    {faq.q}
+                  </span>
+                  <svg
+                    className={`w-5 h-5 flex-shrink-0 text-gray-400 transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isOpen && (
+                  <div className="px-5 sm:px-6 pb-5 sm:pb-6 animate-[fadeUp_0.2s_ease_both]">
+                    <div className="w-full h-px bg-gray-100 mb-4" />
+                    <p className="font-sans text-gray-500 text-sm leading-relaxed font-light">
+                      {faq.a}
+                    </p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
