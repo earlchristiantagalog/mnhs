@@ -17,7 +17,7 @@ interface SettingsData {
   about: { title: string; mission: string; vision: string; coreValues: string; history: string; };
   programs: { shsTitle: string; shsDesc: string; stemTitle: string; stemDesc: string; abmTitle: string; abmDesc: string; humssTitle: string; humssDesc: string; tvlTitle: string; tvlDesc: string; };
   contacts: { email: string; phone: string; address: string; facebook: string; website: string; officeHours: string; };
-  global: { schoolName: string; tagline: string; footerText: string; primaryColor: string; logoUrl: string; dbHost: string; dbName: string; dbUser: string; dbPort: string; };
+  global: { schoolName: string; tagline: string; footerText: string; primaryColor: string; logoUrl: string; dbHost: string; dbName: string; dbUser: string; dbPassword: string; dbPort: string; };
 }
 
 const initialData: SettingsData = {
@@ -61,6 +61,7 @@ const initialData: SettingsData = {
     dbHost: "localhost",
     dbName: "mnhs_db",
     dbUser: "root",
+    dbPassword: "",
     dbPort: "3306",
   },
 };
@@ -348,6 +349,7 @@ export default function SettingsPage() {
                 {renderInput("Port", "dbPort", data.global.dbPort, "global", "text", "3306")}
                 {renderInput("Database Name", "dbName", data.global.dbName, "global", "text", "mnhs_db")}
                 {renderInput("Username", "dbUser", data.global.dbUser, "global", "text", "root")}
+                {renderInput("Password", "dbPassword", data.global.dbPassword, "global", "password", "Enter password")}
               </div>
             </div>
           </div>
